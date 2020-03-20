@@ -4,10 +4,11 @@ import java.util.HashMap;
 public class Core {
 	MyStack myStack;
 	HashMap<Integer, SystemCall> SystemCalls;
+	
 	public Core()
 	{
 		this.myStack = new MyStack();
-		this.SystemCalls = new HashMap<Integer, SystemCall>();
+		this.SystemCalls = new HashMap<Integer, SystemCall>();		
 		SystemCalls.put(0, new SystemCall("open", 3, "Работа с файлами"));
 		SystemCalls.put(1, new SystemCall("close", 1, "Работа с файлами"));
 		SystemCalls.put(2, new SystemCall("load", 2, "Управление процессами"));
@@ -15,19 +16,19 @@ public class Core {
 		SystemCalls.put(4, new SystemCall("create", 2, "Связь, коммуникация"));
 	}
 	
-	public void Add(String arg) {
+	public void Add(Argument arg) {
 		this.myStack.push(arg);
 	}
 	
 	public void Run(int id) throws Exception {
-		ArrayList<String> args = new ArrayList<String>();
+		ArrayList<Argument> args = new ArrayList<Argument>();
 		if (SystemCalls.get(id) == null) {
 			String exceptionMessage = String.format("Неверный системный вызов", id);
 			System.out.println(exceptionMessage);
 			return;
 		}
 		for (int i = 0; i < SystemCalls.get(id).countOfArgs; i++) {
-			String arg = myStack.pop();
+			Argument arg = myStack.pop();
 			if(arg != null) {
 			args.add(arg);
 			} else {

@@ -9,7 +9,7 @@ public class SystemCall {
 		this.countOfArgs = countOfArgs;
 		this.systemCallInfo = systemCallInfo;
 	}
-	public void doCall(ArrayList<String> args){
+	public void doCall(ArrayList<Argument> args){
 		if(args.size() != countOfArgs)
 		{
 			String exceptionMessage = String.format("Неверное число аргументов %d, необходимо: %d", args.size(), countOfArgs);
@@ -17,7 +17,7 @@ public class SystemCall {
 		}
 		System.out.print(nameOfSystemCall + ": ");
 		for (int i = 0; i < args.size(); i++) {
-			System.out.print(args.get(i) + " ");
+			System.out.print(args.get(i).getValue() + ", ");
 		}
 		System.out.println();
 	}

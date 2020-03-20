@@ -3,26 +3,23 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		Core core = new Core();
-		core.Add("file");
-		core.Add("123");
+		core.Add(new Argument("file"));
+		core.Add(new Argument(5));
 		core.Run(0);
-		core.Add("file1");
-		core.Add("fifdhg");
+		core.Add(new Argument("file1"));
+		core.Add(new Argument("fifdhg"));
 		core.Run(2);
-		core.Add("73");
-		core.Add("file1");
-		core.Add("fl");
-		core.Add("1237");
+		core.Add(new Argument("73"));
+		core.Add(new Argument(988));
+		core.Add(new Argument("fl"));
+		core.Add(new Argument("1237"));
 		core.Run(3);
-		core.Add("file5");
-		core.Add("file4");
+		core.Add(new Argument("file5"));
+		core.Add(new Argument("file4"));
 		core.Run(4);
 		core.Run(5);
 		
 		System.out.println("\n" + "Список системных вызовов:");
 		System.out.println(core.printSystemCalls());
-
-
 	}
-
 }

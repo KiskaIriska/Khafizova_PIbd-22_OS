@@ -1,22 +1,21 @@
 import java.util.ArrayList;
 
 public class MyStack {
-	private ArrayList<String> list = new ArrayList<String>();
+	private ArrayList<Argument> list = new ArrayList();
 	
-	public void push(String num)
+	public void push(Argument num)
 	{
 		list.add(num);
 	}
 	
-	public String pop()
+	public Argument pop()
 	{
 		if(list.size() == 0) {
 			return null;
 		}		
-		String a = list.get(list.size()-1);
-		list.remove(list.size()-1);
+		Argument a = list.get(list.size()-1);
+		list.remove(list.size()-1);			
 		return a;
-	
 	}
 	
 	public int myStackSize() {
