@@ -28,6 +28,9 @@ public class Process {
 		return prioritet;
 	}	
 	
+	public void Change() {
+		prioritet = 0;
+	}
 	public ArrayList<Stream> getlist() {
 		return Streams;
 	}		
