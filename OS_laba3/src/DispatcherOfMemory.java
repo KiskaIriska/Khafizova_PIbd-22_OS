@@ -1,68 +1,42 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Random;
 
 public class DispatcherOfMemory {
 	private TableOfPages tableVirtualMemory;
-	private ArrayList<Page> tableRealMemory;
+	private int tableRealMemory;
+	private Queue<Page> pageQueue;
 	private int maxFrames;
-	private ArrayList<Integer> loaning = new ArrayList<>();
-
-	public DispatcherOfMemory(int sizeOfRAM, int sizeOfPage) {
+	Random randomBits = new Random ();
+	
+	public DispatcherOfMemory(int RAM, int sizePage) {
 		tableVirtualMemory = new TableOfPages();
-		tableRealMemory = new ArrayList<Page>();
-		maxFrames = sizeOfRAM / sizeOfPage;
-		for (int i = 0; i < (sizeOfRAM * 2) / sizeOfPage; i++) {
-			Page page = new Page(false);
-			page.setIndexRealPage(-43424);
+		tableRealMemory = RAM;
+		pageQueue = new PriorityQueue<Page>();
+		maxFrames = RAM / sizePage;
+		for (int i = 0; i < RAM*2; i++) {
+			Page page = new Page(randomBits.nextInt()+1, false, i);
 			tableVirtualMemory.add(page);
 		}
 	}
-
-	@SuppressWarnings("unchecked")
-	public void insertIntoPhysicalMemory(int pageIndex) {
+	public void insert(int pageIndex) {
 		Object[] resultObjects;
-		Algorithm algorithm = new Algorithm(tableVirtualMemory, tableRealMemory, loaning);
-		Page page = tableVirtualMemory.get(pageIndex);
-		if (!page.isAvailability()) {
-			if (tableRealMemory.size() < maxFrames) {
-				page.setAvailability(true);
-				tableRealMemory.add(page);
-				int indexOfPageFrames = tableRealMemory.indexOf(page);
-				page.setIndexRealPage(indexOfPageFrames);
-				loaning.add(pageIndex);
-			} else if (tableRealMemory.size() == maxFrames) {
-				resultObjects = algorithm.leastRecentlyUsed(page);
-				loaning.add(pageIndex);
-				tableRealMemory = (ArrayList<Page>) resultObjects[0];
-				tableVirtualMemory.setPagesRecords((ArrayList<Page>) resultObjects[1]);
-				loaning = (ArrayList<Integer>) resultObjects[2];
-			}
-		}
-		printFrames();
-		printVirtualPages();
+    	Algorithm algorithm = new Algorithm(tableVirtualMemory, pageQueue);
+    	Page page = tableVirtualMemory.Get(pageIndex);
+    	 if(!page.getAvailability()){
+    		 if(pageQueue.size() < maxFrames){
+    			 page.setAvailability(true);
+    			 pageQueue.add(page);
+    		 }
+    		 else if(pageQueue.size() == maxFrames) {
+    			 resultObjects = algorithm.SecondChance(page);
+    			 pageQueue = (Queue<Page>) resultObjects[0];
+    			 tableVirtualMemory.setPagesRecords((LinkedList<Page>) resultObjects[1]);
+    		 }
+    	 }
 	}
-
-	public int getTableVirtualPagesSize() {
-		return tableVirtualMemory.size();
-	}
-
-	public void printFrames() {
-		int i = 0;
-		System.out.println("Физическая память");
-		for (Page frame : tableRealMemory) {
-			System.out.println("i = " + i + "; Проверка присутствия " + frame.getIndexRealPage());
-			i++;
-		}
-		System.out.println();
-	}
-
-	private void printVirtualPages() {
-		int i = 0;
-		System.out.println("Виртувльня память");
-		for (Page page : tableVirtualMemory.getPagesRecords()) {
-			System.out.println("i = " + i + "; Проверка присутствия = " + page.getIndexRealPage() + "; IndexFrame = "
-					+ page.getIndexRealPage());
-			i++;
-		}
-		System.out.println();
-	}
+	public int getVirtualMemorySize(){
+        return tableVirtualMemory.Size();
+    }
 }
