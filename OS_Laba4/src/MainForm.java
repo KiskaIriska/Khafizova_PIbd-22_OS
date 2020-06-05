@@ -75,7 +75,7 @@ public class MainForm {
 						Manager.setMemoryPoint(ps[i].I, ps[i].J, 2);
 					}
 				}
-				File f = Changes.getfile(s);
+				File f = Manager.getfile(s);
 				if (f != null) {
 					Place[] ps = f.getNode().getpositions();
 					if (ps != null) {
@@ -169,7 +169,7 @@ public class MainForm {
 			public void actionPerformed(ActionEvent arg0) {
 				if (textField_2.getText().trim().length() > 0) {
 					String name = textField_2.getText();
-					Boolean add = Manager.addFile(name + "-копия", Changes
+					Boolean add = Manager.addFile(name + "-копия", Manager
 							.getfile(name).getNode().fileSize());
 					if (add) {
 						list2.addElement(name + "-копия");
